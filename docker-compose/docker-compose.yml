@@ -1,0 +1,30 @@
+version: '2'
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - 80:80
+    volumes:
+      - /mnt/frontend/nginx:/var/log/nginx
+      - /vagrant/frontend:/var/www/html
+    command: /sbin/init
+    privileged: true
+  backend:
+    build: ./backend
+    ports:
+      - 81:80
+    volumes:
+      - /mnt/backend/nginx:/var/log/nginx
+      - /mnt/backend/php-fpm:/var/log/php-fpm
+      - /vagrant/backend:/var/www/html
+    command: /sbin/init
+    privileged: true
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306
+    volumes:
+      - /mnt/mysql:/var/lib/mysql
+    privileged: true
