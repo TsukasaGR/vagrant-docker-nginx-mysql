@@ -6,10 +6,15 @@ Vagrant.configure("2") do |config|
     # 外部から接続するIP
     config.vm.network "private_network", ip: "192.168.33.120"
 
+    # 共有フォルダ設定(デフォの/vagrantのディレクトリのままだとvagrant rsync-autoを実行しないと自動同期されない為)
+    config.vm.synced_folder ".",
+                            "/mnt/vagrant",
+                            :mount_options => ["dmode=775,fmode=775"]
+
     # CPU,メモリーサイズ
     config.vm.provider "virtualbox" do |vb|
         vb.cpus = 2
-        vb.memory = 4096
+        vb.memory = 1024
     end
 
     # [初回のみ]必要なパッケージのインストール等初期設定
@@ -93,7 +98,7 @@ Vagrant.configure("2") do |config|
         systemctl restart network
         systemctl stop firewalld
         systemctl restart docker
-        /usr/local/bin/docker-compose -f /vagrant/docker-compose/docker-compose.yml up -d
+        /usr/local/bin/docker-compose -f /mnt/vagrant/docker-compose/docker-compose.yml up -d
     SHELL
 
 end

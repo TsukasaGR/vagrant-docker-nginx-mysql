@@ -6,7 +6,7 @@ services:
       - 80:80
     volumes:
       - /mnt/frontend/nginx:/var/log/nginx
-      - /vagrant/frontend:/var/www/html
+      - /mnt/vagrant/frontend:/var/www/html
     command: /sbin/init
     privileged: true
   backend:
@@ -16,7 +16,7 @@ services:
     volumes:
       - /mnt/backend/nginx:/var/log/nginx
       - /mnt/backend/php-fpm:/var/log/php-fpm
-      - /vagrant/backend:/var/www/html
+      - /mnt/vagrant/backend:/var/www/html
     command: /sbin/init
     privileged: true
   db:
